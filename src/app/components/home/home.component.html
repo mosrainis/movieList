@@ -1,0 +1,5 @@
+<div class="container">
+    <ul>
+        <li *ngFor="let movie of movieList"><a [routerLink]="['movies', movie.id, 'details']">{{movie.title}}</a></li>
+    </ul>
+</div>

@@ -1,0 +1,40 @@
+<div *ngIf="movieSelected; else loggedOut">
+    <h2 class="title">{{movieSelected.title}}</h2>
+    <div class="movie-co">
+        <img class="poster" src="{{movieSelected.image}}" alt="movie poster">
+        <div class="text-co">
+            <div class="info">
+                <p> - IMDB Rating : {{movieSelected.rating}}</p>
+                <p> - Release year : {{movieSelected.releaseYear}}</p>
+                <p> - Ganre : <span *ngFor="let genre of movieSelected.genre">{{genre}} </span></p>
+            </div>
+            <div class="disc-co">
+                <h3>SUMMARY</h3>
+                <p>{{movieSelected.summary | more:0:endParam}}</p>
+                <!-- clicking on 'READ MORE' will change the 'endParam' argumant on 'more' Pipe -->
+                <button class="readmore-btn" *ngIf="displayMore" (click)="endParam=Infinity; displayMore=false">READ MORE</button>
+            </div>
+        </div>
+    </div>
+    <div class="related">
+        <h3>Related Movies in <span style="color: #313131">{{movieSelected.genre[0]}}</span> genre :</h3>
+        <a class="backbtn" [routerLink]="['/']">Back to the Main page</a>
+        <div class="rel-co">
+            <ng-container *ngFor="let movie of movieDetails">
+            <div class="movie" *ngIf="movieSelected.genre[0] == movie.genre[0]">
+                <a [routerLink]="['/movies', movie.id, 'details']">
+                    <div>
+                        <img class="movie-img" src="{{movie.image}}" alt="movie poster">
+                        <h3>{{movie.title}}</h3>
+                    </div>
+                </a>
+            </div>
+            </ng-container>
+        </div>
+    </div>
+</div>
+
+<ng-template #loggedOut>
+    <h3>OH COME ON, Don't do this! That movie doesn't exist on the list ...</h3>
+    <img src="../../../assets/not-found.png" alt="Angry poker face">
+</ng-template>
